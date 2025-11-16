@@ -7,9 +7,9 @@ import Footer from "../components/Footer"
 export default function AppLayout() {
   return (
     <div className="d-flex flex-column min-vh-100">
-      <Navbar />          {/* Ya NO recibe onNavigate */}
+      <Navbar />          
       <main className="flex-grow-1">
-        <Outlet />        {/* Aquí se renderizan las páginas */}
+        <Outlet />       
       </main>
       <Footer />
     </div>

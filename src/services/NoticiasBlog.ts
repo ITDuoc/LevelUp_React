@@ -18,7 +18,7 @@ export interface Noticia {
   comentarios: Comentario[];
 }
 
-// Imagen por defecto si llega una noticia sin imagen
+// Imagen por defecto
 const imagenPorDefecto =
   "https://via.placeholder.com/800x400?text=Noticia+sin+imagen";
 

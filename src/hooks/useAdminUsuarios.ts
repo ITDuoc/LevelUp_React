@@ -1,4 +1,3 @@
-// useAdminUsuarios.ts
 import { useState, useEffect } from "react";
 import type { Usuario } from "../services/usuariosService";
 import {
@@ -25,7 +24,7 @@ export function useAdminUsuarios() {
   });
   const [errores, setErrores] = useState<Record<string, string>>({});
 
-  // Función para mapear datos simulados a Usuario
+  // Funcion para mapear datos simulados a Usuario
   const mapearUsuariosSimulados = (): Usuario[] => {
     const clientesMapeados: Usuario[] = clientes.map(c => ({
       id: c.id_cliente,
@@ -33,7 +32,7 @@ export function useAdminUsuarios() {
       apellido: c.apellido_cliente,
       correo: c.correo_cliente,
       contrasenia: c.contrasenia_cliente,
-      telefono: c.telefono, // Cliente sí tiene
+      telefono: c.telefono, 
       direccion: c.direccion,
       fecha_nac: c.fecha_nac_cliente,
       rol: "cliente",
@@ -45,7 +44,7 @@ export function useAdminUsuarios() {
       apellido: v.apellido_vendedor,
       correo: v.correo_vendedor,
       contrasenia: v.contrasenia_vendedor,
-      telefono: "", // Siempre vacío, no accedemos a v.telefono
+      telefono: "", 
       direccion: "",
       fecha_nac: v.fecha_nac_vendedor,
       rol: "vendedor",
@@ -57,7 +56,7 @@ export function useAdminUsuarios() {
       apellido: a.apellido_administrador,
       correo: a.correo_administrador,
       contrasenia: a.contrasenia_administrador,
-      telefono: "", // Siempre vacío
+      telefono: "", 
       direccion: "",
       fecha_nac: a.fecha_nac_administrador,
       rol: "administrador",
@@ -71,9 +70,8 @@ export function useAdminUsuarios() {
     async function cargarUsuarios() {
       const data = await obtenerUsuarios();
       if (data.length === 0) {
-        // Si localStorage está vacío, usar simulados
         const simulados = mapearUsuariosSimulados();
-        simulados.forEach(u => registrarUsuario(u)); // Guardar en localStorage
+        simulados.forEach(u => registrarUsuario(u)); 
         setUsuarios(simulados);
       } else {
         setUsuarios(data);
@@ -83,7 +81,7 @@ export function useAdminUsuarios() {
     cargarUsuarios();
   }, []);
 
-  // Validación de campos
+  // Validacion de campos
   const validarUsuario = (usuario: Usuario | Omit<Usuario, "id">) => {
     const nuevoErrores: Record<string, string> = {};
     let valido = true;

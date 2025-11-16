@@ -13,7 +13,7 @@ export function useCarrito() {
 
   const [mensaje, setMensaje] = useState<string | null>(null);
 
-  // Función para agregar producto con mensaje
+  // Funcion para agregar producto con mensaje
   const agregarProducto = async (producto: Producto, cantidad: number) => {
     await agregarProductoContext(producto, cantidad);
     setMensaje(`Agregaste ${cantidad} ${producto.nombre_producto} al carrito`);

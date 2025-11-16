@@ -8,7 +8,7 @@ export type CarruselImagen = {
 type Props = {
   id?: string;
   imagenes: CarruselImagen[];
-  altura?: string; // opcional para definir altura del carrusel
+  altura?: string; 
 };
 
 export const Carrusel: React.FC<Props> = ({ id, imagenes, altura = "33vh" }) => {

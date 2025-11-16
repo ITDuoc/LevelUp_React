@@ -38,7 +38,7 @@ export default function Productos() {
   const [busqueda, setBusqueda] = useState("");
   const [ordenPrecio, setOrdenPrecio] = useState<"asc" | "desc" | "ninguno">("ninguno");
 
-  // Seleccionar automáticamente la categoría de la URL
+  // Seleccionar automaticamente la categoria de la URL
   useEffect(() => {
     if (categoriaQuery) {
       setCategoriasSeleccionadas([categoriaQuery]);

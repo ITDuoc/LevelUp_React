@@ -11,7 +11,7 @@ export function usePagoRealizado() {
     const procesarPago = async () => {
       if (carrito.length === 0) return;
 
-      // Guardar pedido (localStorage por ahora, API después)
+      // Guardar pedido (localStorage)
       const nuevoPedido = await pedidoService.guardarPedido(carrito, totalCarrito);
       setPedido(nuevoPedido);
 
@@ -19,7 +19,7 @@ export function usePagoRealizado() {
       await vaciarCarrito();
     };
     procesarPago();
-  }, []); // solo al montar
+  }, []); 
 
   return { pedido };
 }

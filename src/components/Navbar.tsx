@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { useCart } from "../context/CartContext";
 
-// Importamos los roles seguros
+// Importarlos roles 
 import { ROLES } from "../context/UserRoles";
 
 export default function Navbar() {
@@ -38,7 +38,7 @@ export default function Navbar() {
 
         <div className="collapse navbar-collapse" id="menu">
           
-          {/* Navegación principal */}
+          {/* Navegacion principal */}
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             {!esAdmin && (
               <>

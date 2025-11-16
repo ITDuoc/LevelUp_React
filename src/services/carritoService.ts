@@ -6,7 +6,7 @@ export interface CarritoItem {
   total: number;
 }
 
-// Carrito simulado en memoria
+// Carrito simulado 
 let carrito: CarritoItem[] = [];
 
 export const obtenerCarrito = async (): Promise<CarritoItem[]> => {

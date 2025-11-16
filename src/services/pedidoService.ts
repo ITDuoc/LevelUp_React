@@ -3,8 +3,8 @@ import type { CarritoItem } from "./carritoService";
 const STORAGE_KEY = "pedidos";
 
 export interface Pedido {
-  id: string; // ID único del pedido
-  fecha: string; // fecha de la compra
+  id: string; 
+  fecha: string; 
   items: CarritoItem[];
   total: number;
 }

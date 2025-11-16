@@ -3,7 +3,6 @@ import { leerProductos } from "../services/productosService";
 import { leerCategorias } from "../services/categoriasService";
 import { leerEvento } from "../services/eventosService";
 import type { Producto, Categoria } from "../services/interfaces";
-// import { productos } from "../services/DatosSimulados"; // solo si quieres datos simulados
 
 export function useInicioData() {
   const [productosDestacados, setProductosDestacados] = useState<Producto[]>([]);

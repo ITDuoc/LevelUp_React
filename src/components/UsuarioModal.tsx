@@ -67,7 +67,7 @@ export default function UsuarioModal({ show, onClose, usuario, setUsuario, error
             {errores.contrasenia && <div className="invalid-feedback">{errores.contrasenia}</div>}
           </div>
 
-          {/* Dirección */}
+          {/* Direccion */}
           <div className="mb-2">
             <label>Dirección</label>
             <input

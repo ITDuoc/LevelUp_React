@@ -38,7 +38,7 @@ export function useLogin() {
         navigate("/admin");
         break;
       default:
-        navigate("/"); // Por si algún rol no definido
+        navigate("/"); 
         break;
     }
   };

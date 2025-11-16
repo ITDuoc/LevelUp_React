@@ -14,7 +14,7 @@ export type CartContextType = {
   actualizarCantidad: (id_producto: number, cantidad: number) => void;
   totalCantidad: number;
   vaciarCarrito: () => void;
-  sincronizarCarrito: (items: CartItem[]) => void; // <-- nuevo
+  sincronizarCarrito: (items: CartItem[]) => void; 
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);

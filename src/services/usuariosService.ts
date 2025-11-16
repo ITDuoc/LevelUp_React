@@ -1,7 +1,6 @@
-// usuariosService.ts
 import { clientes, vendedores, administradores } from "./DatosSimulados";
 
-// === Definición del tipo Usuario ===
+// Definicion del tipo Usuario 
 export interface Usuario {
   id: number;
   nombre: string;
@@ -16,7 +15,7 @@ export interface Usuario {
 
 const STORAGE_KEY = "usuarios";
 
-// === Función para mapear los datos simulados al tipo Usuario ===
+// Funcion para mapear los datos simulados al tipo Usuario 
 const mapearUsuariosSimulados = (): Usuario[] => {
   const clientesMapeados: Usuario[] = clientes.map(c => ({
     id: c.id_cliente,
@@ -24,7 +23,7 @@ const mapearUsuariosSimulados = (): Usuario[] => {
     apellido: c.apellido_cliente,
     correo: c.correo_cliente,
     contrasenia: c.contrasenia_cliente,
-    telefono: c.telefono || "", // ya que Cliente sí tiene teléfono
+    telefono: c.telefono || "", 
     direccion: c.direccion,
     fecha_nac: c.fecha_nac_cliente,
     rol: "cliente",
@@ -36,8 +35,8 @@ const mapearUsuariosSimulados = (): Usuario[] => {
     apellido: v.apellido_vendedor,
     correo: v.correo_vendedor,
     contrasenia: v.contrasenia_vendedor,
-    telefono: "", // Vendedor no tiene telefono en la interfaz
-    direccion: "", // Dirección vacía por defecto
+    telefono: "", 
+    direccion: "", 
     fecha_nac: v.fecha_nac_vendedor,
     rol: "vendedor",
   }));
@@ -48,8 +47,8 @@ const mapearUsuariosSimulados = (): Usuario[] => {
     apellido: a.apellido_administrador,
     correo: a.correo_administrador,
     contrasenia: a.contrasenia_administrador,
-    telefono: "", // Administrador no tiene telefono
-    direccion: "", // Dirección vacía por defecto
+    telefono: "", 
+    direccion: "", 
     fecha_nac: a.fecha_nac_administrador,
     rol: "administrador",
   }));
@@ -57,7 +56,7 @@ const mapearUsuariosSimulados = (): Usuario[] => {
   return [...clientesMapeados, ...vendedoresMapeados, ...adminsMapeados];
 };
 
-// === Inicializa localStorage si no hay usuarios guardados ===
+// Inicializa localStorage si no hay usuarios guardados
 const inicializarUsuarios = () => {
   const existentes = localStorage.getItem(STORAGE_KEY);
   if (!existentes) {
@@ -66,10 +65,10 @@ const inicializarUsuarios = () => {
   }
 };
 
-// Inicializamos al cargar el módulo
+// Inicializar al cargar el modulo
 inicializarUsuarios();
 
-// === Funciones CRUD ===
+// Funciones CRUD 
 export const obtenerUsuarios = async (): Promise<Usuario[]> => {
   return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 };

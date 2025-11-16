@@ -54,7 +54,7 @@ export const useAdminProductos = () => {
       );
       setEditProducto(null);
       setShowModal(false);
-      // Aquí podrías llamar a un servicio async para actualizar en backend
+      
     }
   };
 
@@ -73,13 +73,13 @@ export const useAdminProductos = () => {
         descripcion_producto: "",
       });
       setShowModal(false);
-      // Aquí podrías llamar a un servicio async para crear en backend
+      
     }
   };
 
   const handleEliminar = async (id: number) => {
     setProductos(prev => prev.filter(p => p.id_producto !== id));
-    // Aquí podrías llamar a un servicio async para eliminar en backend
+    
   };
 
   return {

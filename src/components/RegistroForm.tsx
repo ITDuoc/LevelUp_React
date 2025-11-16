@@ -22,7 +22,7 @@ interface Props {
   setRol: (v: UserRole) => void;
   loading: boolean;
   error: string | null;
-  onSubmit: () => Promise<void>; // obligatorio
+  onSubmit: () => Promise<void>; 
 }
 
 export default function RegistroForm(props: Props) {
