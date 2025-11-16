@@ -1,6 +1,6 @@
 import { clientes, vendedores, administradores } from "./DatosSimulados";
 
-// Definicion del tipo Usuario 
+// Definición del tipo Usuario
 export interface Usuario {
   id: number;
   nombre: string;
@@ -10,12 +10,12 @@ export interface Usuario {
   telefono?: string;
   direccion: string;
   fecha_nac: string;
-  rol: "cliente" | "vendedor" | "administrador" | "";
+  rol: "cliente" | "vendedor" | "administrador";
 }
 
 const STORAGE_KEY = "usuarios";
 
-// Funcion para mapear los datos simulados al tipo Usuario 
+// Mapea datos simulados al tipo Usuario
 const mapearUsuariosSimulados = (): Usuario[] => {
   const clientesMapeados: Usuario[] = clientes.map(c => ({
     id: c.id_cliente,
@@ -23,7 +23,7 @@ const mapearUsuariosSimulados = (): Usuario[] => {
     apellido: c.apellido_cliente,
     correo: c.correo_cliente,
     contrasenia: c.contrasenia_cliente,
-    telefono: c.telefono || "", 
+    telefono: c.telefono || "",
     direccion: c.direccion,
     fecha_nac: c.fecha_nac_cliente,
     rol: "cliente",
@@ -35,8 +35,8 @@ const mapearUsuariosSimulados = (): Usuario[] => {
     apellido: v.apellido_vendedor,
     correo: v.correo_vendedor,
     contrasenia: v.contrasenia_vendedor,
-    telefono: "", 
-    direccion: "", 
+    telefono: "",
+    direccion: "",
     fecha_nac: v.fecha_nac_vendedor,
     rol: "vendedor",
   }));
@@ -47,8 +47,8 @@ const mapearUsuariosSimulados = (): Usuario[] => {
     apellido: a.apellido_administrador,
     correo: a.correo_administrador,
     contrasenia: a.contrasenia_administrador,
-    telefono: "", 
-    direccion: "", 
+    telefono: "",
+    direccion: "",
     fecha_nac: a.fecha_nac_administrador,
     rol: "administrador",
   }));
@@ -56,19 +56,26 @@ const mapearUsuariosSimulados = (): Usuario[] => {
   return [...clientesMapeados, ...vendedoresMapeados, ...adminsMapeados];
 };
 
-// Inicializa localStorage si no hay usuarios guardados
+// Inicializa localStorage agregando los usuarios simulados que falten
 const inicializarUsuarios = () => {
-  const existentes = localStorage.getItem(STORAGE_KEY);
-  if (!existentes) {
-    const usuariosIniciales = mapearUsuariosSimulados();
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(usuariosIniciales));
+  const existentes: Usuario[] = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  const simulados = mapearUsuariosSimulados();
+
+  // Filtrar solo los usuarios simulados que aún no existen
+  const usuariosFaltantes = simulados.filter(
+    s => !existentes.some(e => e.correo.toLowerCase() === s.correo.toLowerCase())
+  );
+
+  if (usuariosFaltantes.length > 0) {
+    const todosUsuarios = [...existentes, ...usuariosFaltantes];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(todosUsuarios));
   }
 };
 
-// Inicializar al cargar el modulo
+// Inicializamos al cargar el módulo
 inicializarUsuarios();
 
-// Funciones CRUD 
+// CRUD
 export const obtenerUsuarios = async (): Promise<Usuario[]> => {
   return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 };

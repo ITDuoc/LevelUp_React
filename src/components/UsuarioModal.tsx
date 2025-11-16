@@ -19,77 +19,18 @@ export default function UsuarioModal({ show, onClose, usuario, setUsuario, error
         <div className="modal-content cardSimple p-3">
           <h5>{("id" in usuario) ? "Editar Usuario" : "Agregar Usuario"}</h5>
 
-          {/* Nombre */}
-          <div className="mb-2">
-            <label>Nombre</label>
-            <input
-              type="text"
-              className={`form-control ${errores.nombre ? "is-invalid" : ""}`}
-              value={usuario.nombre}
-              onChange={e => setUsuario({ ...usuario, nombre: e.target.value })}
-            />
-            {errores.nombre && <div className="invalid-feedback">{errores.nombre}</div>}
-          </div>
-
-          {/* Apellido */}
-          <div className="mb-2">
-            <label>Apellido</label>
-            <input
-              type="text"
-              className={`form-control ${errores.apellido ? "is-invalid" : ""}`}
-              value={usuario.apellido}
-              onChange={e => setUsuario({ ...usuario, apellido: e.target.value })}
-            />
-            {errores.apellido && <div className="invalid-feedback">{errores.apellido}</div>}
-          </div>
-
-          {/* Correo */}
-          <div className="mb-2">
-            <label>Correo</label>
-            <input
-              type="email"
-              className={`form-control ${errores.correo ? "is-invalid" : ""}`}
-              value={usuario.correo}
-              onChange={e => setUsuario({ ...usuario, correo: e.target.value })}
-            />
-            {errores.correo && <div className="invalid-feedback">{errores.correo}</div>}
-          </div>
-
-          {/* Contraseña */}
-          <div className="mb-2">
-            <label>Contraseña</label>
-            <input
-              type="password"
-              className={`form-control ${errores.contrasenia ? "is-invalid" : ""}`}
-              value={usuario.contrasenia}
-              onChange={e => setUsuario({ ...usuario, contrasenia: e.target.value })}
-            />
-            {errores.contrasenia && <div className="invalid-feedback">{errores.contrasenia}</div>}
-          </div>
-
-          {/* Direccion */}
-          <div className="mb-2">
-            <label>Dirección</label>
-            <input
-              type="text"
-              className={`form-control ${errores.direccion ? "is-invalid" : ""}`}
-              value={usuario.direccion}
-              onChange={e => setUsuario({ ...usuario, direccion: e.target.value })}
-            />
-            {errores.direccion && <div className="invalid-feedback">{errores.direccion}</div>}
-          </div>
-
-          {/* Fecha de nacimiento */}
-          <div className="mb-2">
-            <label>Fecha de Nacimiento</label>
-            <input
-              type="date"
-              className={`form-control ${errores.fecha_nac ? "is-invalid" : ""}`}
-              value={usuario.fecha_nac}
-              onChange={e => setUsuario({ ...usuario, fecha_nac: e.target.value })}
-            />
-            {errores.fecha_nac && <div className="invalid-feedback">{errores.fecha_nac}</div>}
-          </div>
+          {["nombre","apellido","correo","contrasenia","direccion","fecha_nac"].map(field => (
+            <div className="mb-2" key={field}>
+              <label>{field === "contrasenia" ? "Contraseña" : field.charAt(0).toUpperCase() + field.slice(1)}</label>
+              <input
+                type={field === "fecha_nac" ? "date" : field === "correo" ? "email" : field === "contrasenia" ? "password" : "text"}
+                className={`form-control ${errores[field] ? "is-invalid" : ""}`}
+                value={usuario[field as keyof typeof usuario] as string}
+                onChange={e => setUsuario({ ...usuario, [field]: e.target.value })}
+              />
+              {errores[field] && <div className="invalid-feedback">{errores[field]}</div>}
+            </div>
+          ))}
 
           {/* Rol */}
           <div className="mb-2">
@@ -107,7 +48,6 @@ export default function UsuarioModal({ show, onClose, usuario, setUsuario, error
             {errores.rol && <div className="invalid-feedback">{errores.rol}</div>}
           </div>
 
-          {/* Botones */}
           <div className="d-flex justify-content-end mt-3">
             <button className="btn btn-secondary me-2" onClick={onClose}>Cancelar</button>
             <button className="btn btn-primary" onClick={onSave}>Guardar</button>

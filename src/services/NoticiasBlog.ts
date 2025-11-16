@@ -20,7 +20,7 @@ export interface Noticia {
 
 // Imagen por defecto
 const imagenPorDefecto =
-  "https://via.placeholder.com/800x400?text=Noticia+sin+imagen";
+  "/images/usuarios/default.jpg";
 
 // Noticias simuladas
 export const noticias: Noticia[] = [
@@ -34,7 +34,7 @@ export const noticias: Noticia[] = [
 El 2025 promete ser un año espectacular para los videojuegos. Con la llegada de nuevas entregas 
 de sagas icónicas y títulos completamente nuevos que redefinirán la experiencia gamer. 
 Entre los más esperados se encuentran *Elder Ring 2*, *Cyberstrike 2099* y *Hollow Knight: Void’s Return*.`,
-    imagen: "https://images.unsplash.com/photo-1605902711622-cfb43c4437b5",
+    imagen: "/images/blog/esperados.jpg",
     comentarios: [
       {
         id: 1,
@@ -59,7 +59,7 @@ Entre los más esperados se encuentran *Elder Ring 2*, *Cyberstrike 2099* y *Hol
     contenido: `
 Un buen setup gamer no depende solo del hardware, sino también de la comodidad y la organización. 
 Ajusta la iluminación, usa una silla ergonómica y mantén tu escritorio limpio para mejorar tu rendimiento y confort.`,
-    imagen: "https://images.unsplash.com/photo-1587202372775-e229f172b9b2",
+    imagen: "/images/blog/setupgamer.jpg",
     comentarios: [
       {
         id: 3,
@@ -78,7 +78,7 @@ Ajusta la iluminación, usa una silla ergonómica y mantén tu escritorio limpio
     contenido: `
 Desde el *GameFest Chile 2025* hasta la *Expo Gamer Argentina*, este año trae una agenda llena de 
 oportunidades para competir, probar juegos y conocer a otros apasionados del gaming.`,
-    imagen: "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1",
+    imagen: "/images/blog/eventogamer.jpg",
     comentarios: [
       {
         id: 4,
