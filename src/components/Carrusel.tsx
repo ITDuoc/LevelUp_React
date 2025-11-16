@@ -6,11 +6,12 @@ export type CarruselImagen = {
 };
 
 type Props = {
-  id?: string;           // ID opcional (por defecto se genera uno)
+  id?: string;
   imagenes: CarruselImagen[];
+  altura?: string; // opcional para definir altura del carrusel
 };
 
-export const Carrusel: React.FC<Props> = ({ id, imagenes }) => {
+export const Carrusel: React.FC<Props> = ({ id, imagenes, altura = "33vh" }) => {
   const carruselId = id || "carrusel-" + Math.random().toString(36).substring(2);
 
   return (
@@ -19,6 +20,7 @@ export const Carrusel: React.FC<Props> = ({ id, imagenes }) => {
       className="carousel slide"
       data-bs-ride="carousel"
       aria-label="Carrusel de imágenes"
+      style={{ maxHeight: altura, overflow: "hidden" }}
     >
       <div className="carousel-inner">
         {imagenes.map((img, index) => (
@@ -30,6 +32,7 @@ export const Carrusel: React.FC<Props> = ({ id, imagenes }) => {
               src={img.url}
               className="d-block w-100"
               alt={img.alt || `slide-${index + 1}`}
+              style={{ height: altura, objectFit: "cover" }}
             />
           </div>
         ))}

@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useProductos } from "../hooks/useProductos";
 import { useFiltros } from "../hooks/useFiltros";
 import ProductoCard from "../components/ProductoCard";
 import Toast from "../components/Toast";
 
 export default function Productos() {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const categoriaQuery = params.get("categoria") || "";
+
   const {
     productos,
     marcas,
@@ -33,7 +38,13 @@ export default function Productos() {
   const [busqueda, setBusqueda] = useState("");
   const [ordenPrecio, setOrdenPrecio] = useState<"asc" | "desc" | "ninguno">("ninguno");
 
-  // Filtrado de productos según búsqueda, marcas y categorías
+  // Seleccionar automáticamente la categoría de la URL
+  useEffect(() => {
+    if (categoriaQuery) {
+      setCategoriasSeleccionadas([categoriaQuery]);
+    }
+  }, [categoriaQuery, setCategoriasSeleccionadas]);
+
   const productosFiltrados = productos
     .filter(p =>
       (!busqueda || p.nombre_producto.toLowerCase().includes(busqueda.toLowerCase())) &&
@@ -46,7 +57,6 @@ export default function Productos() {
       return 0;
     });
 
-  // Vista detalle
   if (productoSeleccionado) {
     const marca = marcas.find(m => m.id_marca === productoSeleccionado.id_marca)?.nombre_marca;
     const categoria = categorias.find(c => c.id_categoria === productoSeleccionado.id_categoria)?.nombre_categoria;
@@ -82,12 +92,10 @@ export default function Productos() {
     );
   }
 
-  // Vista listado
   return (
     <div className="container mt-4">
       <h1 className="mb-4 text-center">Productos</h1>
 
-      {/* Barra de búsqueda y orden */}
       <div className="row mb-3">
         <div className="col-md-8 mb-2">
           <input
@@ -112,7 +120,6 @@ export default function Productos() {
       </div>
 
       <div className="row">
-        {/* Filtros categoría y marca */}
         <div className="col-lg-3 mb-3">
           <div className="cardSimple p-3 sticky-top" style={{ top: 80, height: 500, overflowY: "auto" }}>
             <h5>Filtros</h5>
@@ -151,7 +158,6 @@ export default function Productos() {
           </div>
         </div>
 
-        {/* Listado de productos */}
         <div className="col-lg-9">
           <div className="row">
             {productosFiltrados.length === 0 ? (

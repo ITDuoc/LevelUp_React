@@ -1,6 +1,13 @@
+// useAdminUsuarios.ts
 import { useState, useEffect } from "react";
 import type { Usuario } from "../services/usuariosService";
-import { obtenerUsuarios, registrarUsuario, actualizarUsuario, eliminarUsuario } from "../services/usuariosService";
+import {
+  obtenerUsuarios,
+  registrarUsuario,
+  actualizarUsuario,
+  eliminarUsuario
+} from "../services/usuariosService";
+import { clientes, vendedores, administradores } from "../services/DatosSimulados";
 
 export function useAdminUsuarios() {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
@@ -14,18 +21,69 @@ export function useAdminUsuarios() {
     telefono: "",
     direccion: "",
     fecha_nac: "",
-    rol: "",
+    rol: "cliente",
   });
   const [errores, setErrores] = useState<Record<string, string>>({});
 
+  // Función para mapear datos simulados a Usuario
+  const mapearUsuariosSimulados = (): Usuario[] => {
+    const clientesMapeados: Usuario[] = clientes.map(c => ({
+      id: c.id_cliente,
+      nombre: c.nombre_cliente,
+      apellido: c.apellido_cliente,
+      correo: c.correo_cliente,
+      contrasenia: c.contrasenia_cliente,
+      telefono: c.telefono, // Cliente sí tiene
+      direccion: c.direccion,
+      fecha_nac: c.fecha_nac_cliente,
+      rol: "cliente",
+    }));
+
+    const vendedoresMapeados: Usuario[] = vendedores.map(v => ({
+      id: v.id_vendedor,
+      nombre: v.nombre_vendedor,
+      apellido: v.apellido_vendedor,
+      correo: v.correo_vendedor,
+      contrasenia: v.contrasenia_vendedor,
+      telefono: "", // Siempre vacío, no accedemos a v.telefono
+      direccion: "",
+      fecha_nac: v.fecha_nac_vendedor,
+      rol: "vendedor",
+    }));
+
+    const adminsMapeados: Usuario[] = administradores.map(a => ({
+      id: a.id_administrador,
+      nombre: a.nombre_administrador,
+      apellido: a.apellido_administrador,
+      correo: a.correo_administrador,
+      contrasenia: a.contrasenia_administrador,
+      telefono: "", // Siempre vacío
+      direccion: "",
+      fecha_nac: a.fecha_nac_administrador,
+      rol: "administrador",
+    }));
+
+    return [...clientesMapeados, ...vendedoresMapeados, ...adminsMapeados];
+  };
+
+  // Carga inicial de usuarios
   useEffect(() => {
     async function cargarUsuarios() {
       const data = await obtenerUsuarios();
-      setUsuarios(data);
+      if (data.length === 0) {
+        // Si localStorage está vacío, usar simulados
+        const simulados = mapearUsuariosSimulados();
+        simulados.forEach(u => registrarUsuario(u)); // Guardar en localStorage
+        setUsuarios(simulados);
+      } else {
+        setUsuarios(data);
+      }
     }
+
     cargarUsuarios();
   }, []);
 
+  // Validación de campos
   const validarUsuario = (usuario: Usuario | Omit<Usuario, "id">) => {
     const nuevoErrores: Record<string, string> = {};
     let valido = true;
@@ -46,6 +104,7 @@ export function useAdminUsuarios() {
     return valido;
   };
 
+  // Funciones CRUD
   const handleAgregar = async () => {
     if (!validarUsuario(nuevoUsuario)) return;
     try {
@@ -60,8 +119,8 @@ export function useAdminUsuarios() {
 
   const handleGuardar = async () => {
     if (!editUsuario || !validarUsuario(editUsuario)) return;
-    await actualizarUsuario(editUsuario);
-    setUsuarios(prev => prev.map(u => u.id === editUsuario.id ? editUsuario : u));
+    const actualizado = await actualizarUsuario(editUsuario);
+    setUsuarios(prev => prev.map(u => u.id === actualizado.id ? actualizado : u));
     setEditUsuario(null);
     setShowModal(false);
   };
@@ -80,7 +139,7 @@ export function useAdminUsuarios() {
       telefono: "",
       direccion: "",
       fecha_nac: "",
-      rol: "",
+      rol: "cliente",
     });
     setErrores({});
   };

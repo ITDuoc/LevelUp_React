@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useUser } from "../context/UserContext";
 import { loginSimulado } from "../services/authService";
 import { useNavigate } from "react-router-dom";
+import { ROLES } from "../context/UserRoles";
 
 export function useLogin() {
   const { login } = useUser();
@@ -28,9 +29,18 @@ export function useLogin() {
     login(usuario);
     setCargando(false);
 
-    // Redireccion segun rol
-    if (usuario.rol === "cliente") navigate("/cuenta");
-    else navigate("/paneladmin");
+    // Redireccion segun rol usando ROLES
+    switch (usuario.rol) {
+      case ROLES.CLIENTE:
+        navigate("/cuenta");
+        break;
+      case ROLES.ADMIN:
+        navigate("/admin");
+        break;
+      default:
+        navigate("/"); // Por si algún rol no definido
+        break;
+    }
   };
 
   return { correo, setCorreo, contrasenia, setContrasenia, error, cargando, handleLogin };

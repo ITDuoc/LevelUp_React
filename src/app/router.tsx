@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppLayout from "./AppLayout";
 
 import Inicio from "../pages/Inicio";
@@ -25,7 +25,7 @@ export default function AppRouter() {
           <Route path="/carrito" element={<Carrito />} />
           <Route path="/pago-realizado" element={<PagoRealizado />} />
 
-          {/* Redirige /admin a dashboard por defecto */}
+          {/* Panel de administrador con subrutas */}
           <Route path="/admin/*" element={<PanelAdmin />} />
         </Route>
 
@@ -33,7 +33,7 @@ export default function AppRouter() {
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
 
-        {/* 404 */}
+        {/* Ruta 404 */}
         <Route path="*" element={<h2>404 - Página no encontrada</h2>} />
       </Routes>
     </BrowserRouter>
