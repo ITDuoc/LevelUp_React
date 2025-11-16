@@ -14,6 +14,7 @@ export type CartContextType = {
   actualizarCantidad: (id_producto: number, cantidad: number) => void;
   totalCantidad: number;
   vaciarCarrito: () => void;
+  sincronizarCarrito: (items: CartItem[]) => void; // <-- nuevo
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -58,21 +59,18 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const actualizarCantidad = (id_producto: number, cantidad: number) => {
     if (cantidad < 1) return;
-
     setCarrito(prev =>
       prev.map(item =>
         item.producto.id_producto === id_producto
-          ? {
-              ...item,
-              cantidad,
-              total: cantidad * item.producto.precio,
-            }
+          ? { ...item, cantidad, total: cantidad * item.producto.precio }
           : item
       )
     );
   };
 
   const vaciarCarrito = () => setCarrito([]);
+
+  const sincronizarCarrito = (items: CartItem[]) => setCarrito(items); 
 
   const totalCantidad = carrito.reduce((acc, item) => acc + item.cantidad, 0);
 
@@ -85,6 +83,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         actualizarCantidad,
         totalCantidad,
         vaciarCarrito,
+        sincronizarCarrito, 
       }}
     >
       {children}
@@ -94,7 +93,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  if (!context)
-    throw new Error("useCart debe usarse dentro de CartProvider");
+  if (!context) throw new Error("useCart debe usarse dentro de CartProvider");
   return context;
 };
