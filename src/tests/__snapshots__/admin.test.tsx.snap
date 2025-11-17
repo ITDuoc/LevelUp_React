@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`BarChart snapshot 1`] = `
+<canvas
+  height="350"
+  width="600"
+/>
+`;
