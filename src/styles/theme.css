@@ -1,0 +1,258 @@
+/* *** Variables Root *** */
+:root {
+  --color-morado: #510080;
+  --color-violeta: #6f42c1;
+  --color-gris-oscuro: #2c2c2c;
+  --color-morado-oscuro: #160333;
+  --font-base: 'Roboto', sans-serif;
+  --font-titulo: 'Press Start 2P', cursive;
+}
+
+/* *** Body general *** */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-gris-oscuro);
+  color: #FFFFFF;
+  font-family: var(--font-base);
+}
+
+/* *** Titulos *** */
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--font-titulo);
+  color: var(--color-violeta);
+}
+
+/* *** Botones *** */
+.btn-primary {
+  background-color: var(--color-morado);
+  border-color: var(--color-morado);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-violeta);
+  border-color: var(--color-violeta);
+}
+
+/* *** NavBar *** */
+.navbar {
+  background-color: var(--color-morado-oscuro) !important;
+  font-family: var(--font-base);
+  border-bottom: 3px solid var(--color-violeta);
+  margin-bottom: 0;
+  z-index: 1000;
+}
+
+.navbar-brand {
+  font-family: var(--font-titulo);
+  color: var(--color-violeta) !important;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+.navbar-brand:hover {
+  color: var(--color-morado) !important;
+}
+
+.nav-link {
+  color: #FFFFFF !important;
+  transition: color 0.3s ease, transform 0.2s ease;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  color: var(--color-violeta) !important;
+  transform: translateY(-2px);
+}
+
+/* *** Hero *** */
+.hero {
+  position: relative;
+  width: 100vw;
+  height: 40vh;
+  background: linear-gradient(rgba(22, 3, 51, 0.85), rgba(111, 66, 193, 0.85)),
+    url("https://images.unsplash.com/photo-1605902711622-cfb43c4437e1?auto=format&fit=crop&w=1400&q=80") center/cover no-repeat;
+  text-align: center;
+  color: #FFFFFF;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-content {
+  z-index: 2;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(22, 3, 51, 0.4);
+  z-index: 1;
+}
+
+/* *** Animacion para el hero *** */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+
+/* *** Colores de texto *** */
+.text-violeta {
+  color: var(--color-violeta);
+}
+
+/* *** Mapa de Eventos *** */
+.event-map {
+  border: 4px solid var(--color-violeta);
+  border-radius: 10px;
+}
+
+/* *** Cards *** */
+.card {
+  background-color: #1e1e1e;
+  border: 2px solid var(--color-morado);
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: #FFFFFF; /* ✅ texto blanco como en cardSimple */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 15px var(--color-violeta);
+}
+
+.card .card-title {
+  color: var(--color-violeta);
+  font-family: var(--font-titulo);
+  font-size: 1rem;
+}
+
+.card .card-text {
+  color: #FFFFFF;
+  font-family: var(--font-base);
+}
+
+
+.cardSimple {
+  background-color: #1e1e1e;
+  border: 2px solid var(--color-morado);
+  border-radius: 10px;
+  padding: 0.5rem;
+  color: #FFFFFF;
+
+}
+
+.cardSimple .card-body {
+  padding: 0.5rem;
+}
+/* ***Sidebar del PanelAdmin*** */
+.sidebar {
+  background-color: #1e1e1e; /* igual que cardSimple */
+  border: 2px solid var(--color-morado);
+  border-radius: 10px;
+  padding: 1rem;
+  min-width: 220px;
+  height: fit-content;
+}
+
+.sidebar h4 {
+  color: var(--color-violeta);
+  margin-bottom: 1rem;
+  font-family: var(--font-titulo);
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.sidebar li:hover {
+  background-color: var(--color-violeta);
+  color: #fff;
+  transform: translateX(3px);
+}
+
+.sidebar li.active {
+  background-color: var(--color-morado);
+  color: #fff;
+}
+
+/* *** Modal para editar *** */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-card {
+  width: 400px;
+  max-width: 90%;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+/* Toast personalizado para la web */
+.toast-custom {
+  background-color: #1e1e1e; /* mismo fondo que cards */
+  border: 2px solid var(--color-morado);
+  color: #FFFFFF;
+  min-width: 300px; 
+  max-width: 400px;
+  font-family: var(--font-base);
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--color-violeta);
+}
+
+.toast-custom .toast-header {
+  background-color: var(--color-morado);
+  color: #FFFFFF;
+  font-weight: bold;
+  border-bottom: 1px solid var(--color-violeta);
+}
+
+.toast-custom .toast-body {
+  color: #FFFFFF;
+  font-size: 1rem;
+}
