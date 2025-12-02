@@ -19,28 +19,31 @@ export function useLogin() {
     setCargando(true);
 
     try {
-      const usuario: UsuarioBackend | null = await apiLogin(correo, contrasenia);
+      const usuario: UsuarioBackend | "ELIMINADO" | null = await apiLogin(correo, contrasenia);
 
-      if (!usuario) {
+      if (usuario === null) {
         setError("Correo o contraseña incorrectos");
         return;
       }
 
-      // Mapear rol segun idRol
+      if (usuario === "ELIMINADO") {
+        setError("Usuario eliminado");
+        return;
+      }
+
+      // Mapear rol según idRol
       const rolMap: Record<number, string> = {
         1: "administrador",
         2: "cliente",
         3: "vendedor",
       };
-
       const rol = rolMap[usuario.roles?.[0]?.idRol ?? 2] || "cliente";
 
-      
       login("", usuario.idUsuario, usuario.correoUsuario, rol);
 
-      // Redirigir segun rol
+      // Redirigir según rol
       if (rol === "administrador") navigate("/admin");
-      else navigate("/"); 
+      else navigate("/");
 
     } catch (err: any) {
       setError(err.message || "Error al iniciar sesión");

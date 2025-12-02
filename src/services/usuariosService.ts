@@ -2,9 +2,7 @@ import type { UsuarioBackend } from "../interfaces/UsuarioBackend";
 
 const API = "http://localhost:8082";
 
-
 // Registrar usuario
-
 export async function registrarUsuario(usuario: UsuarioBackend) {
   const resp = await fetch(`${API}/usuario`, {
     method: "POST",
@@ -16,62 +14,62 @@ export async function registrarUsuario(usuario: UsuarioBackend) {
   return resp.json();
 }
 
-
 // Actualizar usuario
-
 export async function actualizarUsuario(id: number, usuario: Partial<UsuarioBackend>) {
   const resp = await fetch(`${API}/usuario/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(usuario),
   });
-
   if (!resp.ok) throw new Error(await resp.text());
   return resp.json();
 }
 
-
-// Obtener roles
-
+// Obtener usuarios
 export async function obtenerUsuarios(): Promise<UsuarioBackend[]> {
   const resp = await fetch(`${API}/usuario`);
   if (!resp.ok) throw new Error(await resp.text());
   return resp.json();
 }
 
-
-// Ontener por id
-
+// Obtener por id
 export async function obtenerUsuario(id: number): Promise<UsuarioBackend> {
   const resp = await fetch(`${API}/usuario/${id}`);
   if (!resp.ok) throw new Error(await resp.text());
   return resp.json();
 }
 
-
 // Eliminar
-
 export async function eliminarUsuario(id: number) {
-  const resp = await fetch(`${API}/usuario/${id}`, {
-    method: "DELETE",
-  });
-
+  const resp = await fetch(`${API}/usuario/${id}`, { method: "DELETE" });
   if (!resp.ok) throw new Error(await resp.text());
   return true;
 }
 
-
-export async function apiLogin(correoUsuario: string, passUsuario: string): Promise<UsuarioBackend | null> {
+// Login con validación de estadoUsuario
+export async function apiLogin(correoUsuario: string, passUsuario: string): Promise<UsuarioBackend | "ELIMINADO" | null> {
   const usuarios = await obtenerUsuarios();
 
-  // Buscar usuario por correo y contraseña
-  const usuario = usuarios.find(
-    (u) => u.correoUsuario === correoUsuario && u.passUsuario === passUsuario
+  // Usuario activo
+  const usuarioActivo = usuarios.find(
+    (u) =>
+      u.correoUsuario === correoUsuario &&
+      u.passUsuario === passUsuario &&
+      u.estadoUsuario === 1
   );
 
-  // Si no existe, devolvemos null
-  if (!usuario) return null;
+  if (usuarioActivo) return usuarioActivo;
 
-  // Devolver usuario completo (incluyendo roles) para redireccion en la web
-  return usuario;
+  // Usuario existe pero inactivo
+  const usuarioInactivo = usuarios.find(
+    (u) =>
+      u.correoUsuario === correoUsuario &&
+      u.passUsuario === passUsuario &&
+      u.estadoUsuario !== 1
+  );
+
+  if (usuarioInactivo) return "ELIMINADO";
+
+  // No existe
+  return null;
 }

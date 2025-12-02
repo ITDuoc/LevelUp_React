@@ -29,11 +29,13 @@ export function useProductos() {
           listarCategorias(),
         ]);
 
-        const normalizados = prod.map((p: Producto) => ({
-          ...p,
-          categoria: p.categoria ?? null,
-          marca: p.marca ?? null,
-        }));
+        const normalizados = prod
+          .filter(p => p.estadoProducto === 1) 
+          .map((p: Producto) => ({
+            ...p,
+            categoria: p.categoria ?? null,
+            marca: p.marca ?? null,
+          }));
 
         if (mounted) {
           setProductos(normalizados);
