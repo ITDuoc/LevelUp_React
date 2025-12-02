@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar";
 import Dashboard from "./Dashboard";
 import AdminUsuarios from "./AdminUsuarios";
 import AdminProductos from "./AdminProductos";
+import AdminVentas from "./AdminVentas"; // <-- nuevo
 
 export default function PanelAdmin() {
   return (
@@ -16,6 +17,7 @@ export default function PanelAdmin() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="usuarios" element={<AdminUsuarios />} />
           <Route path="productos" element={<AdminProductos />} />
+          <Route path="ventas" element={<AdminVentas />} /> {/* <-- nuevo */}
         </Routes>
       </div>
     </div>

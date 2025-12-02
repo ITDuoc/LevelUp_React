@@ -1,6 +1,7 @@
 import React from "react";
 import { useRegistro } from "../hooks/useRegistro";
 import RegistroForm from "../components/RegistroForm";
+import Toast from "../components/Toast";
 
 export default function Registro() {
   const registro = useRegistro();
@@ -11,6 +12,12 @@ export default function Registro() {
       <RegistroForm
         {...registro}
         onSubmit={registro.onSubmit} 
+      />
+
+      {/* Toast */}
+      <Toast
+        mensaje={registro.toastMensaje}
+        onClose={() => registro.setToastMensaje(null)}
       />
     </div>
   );

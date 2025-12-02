@@ -1,5 +1,4 @@
 import React from "react";
-import type { Seccion } from "../hooks/useSeccion";
 import { NavLink } from "react-router-dom";
 
 interface Props {}
@@ -34,6 +33,12 @@ export default function Sidebar({}: Props) {
         className="btn btn-primary w-100"
       >
         Gestión Productos
+      </NavLink>
+      <NavLink
+        to="/admin/ventas"
+        className="btn btn-primary w-100"
+      >
+        Gestión Ventas
       </NavLink>
     </div>
   );

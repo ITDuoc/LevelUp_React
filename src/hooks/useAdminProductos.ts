@@ -39,7 +39,6 @@ export function useAdminProductos() {
           listarMarcas()
         ]);
 
-        // Normalizar categoria y marca
         const normalizados = prod.map(p => ({
           ...p,
           categoria: p.categoria ?? null,
@@ -56,7 +55,7 @@ export function useAdminProductos() {
     cargarDatos();
   }, []);
 
-  // Validacion
+  // Validación
   const validarProducto = (p: Producto) => {
     const e: Record<string, string> = {};
     let ok = true;
@@ -89,7 +88,7 @@ export function useAdminProductos() {
     }
   };
 
-  // Guardar edicion
+  // Guardar edición
   const handleGuardar = async () => {
     if (!editProducto || !validarProducto(editProducto)) return;
 
@@ -112,12 +111,20 @@ export function useAdminProductos() {
     setShowModal(true);
   };
 
+  // Soft delete: marcar como inactivo en vez de eliminar
   const handleEliminar = async (id: number) => {
     try {
-      await eliminarProducto(id);
-      setProductos(prev => prev.filter(p => p.idProducto !== id));
+      const producto = productos.find(p => p.idProducto === id);
+      if (!producto) return;
+
+      const actualizado = { ...producto, estadoProducto: 0 };
+
+      await actualizarProducto(id, actualizado);
+
+      setProductos(prev => prev.map(p => p.idProducto === id ? actualizado : p));
     } catch (err) {
-      console.error("Error al eliminar producto:", err);
+      console.error("Error al inactivar producto:", err);
+      alert("No se pudo inactivar el producto");
     }
   };
 

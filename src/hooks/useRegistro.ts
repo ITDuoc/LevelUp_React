@@ -14,14 +14,15 @@ export function useRegistro() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Estado para el toast
+  const [toastMensaje, setToastMensaje] = useState<string | null>(null);
+
   const handleSubmit = async () => {
     setError(null);
     setLoading(true);
 
     try {
-      // Asignamos siempre rol cliente
       const roleCliente = { idRol: 2, nomRol: "cliente" };
-
       const fechaFormato = fechaNac || "1995-01-01";
 
       const nuevoUsuario: Omit<UsuarioEditable, "idUsuario"> = {
@@ -46,7 +47,8 @@ export function useRegistro() {
         throw new Error(`Error ${resp.status}: ${txt}`);
       }
 
-      alert("Usuario creado con éxito");
+      
+      setToastMensaje("Usuario creado con éxito");
 
       setNombre("");
       setApellido("");
@@ -55,9 +57,9 @@ export function useRegistro() {
       setFechaNac("");
 
       navigate("/login");
-
     } catch (err: any) {
       setError(err.message || "Error al registrar usuario");
+      setToastMensaje(err.message || "Error al registrar usuario");
     } finally {
       setLoading(false);
     }
@@ -71,6 +73,8 @@ export function useRegistro() {
     fechaNac, setFechaNac,
     loading,
     error,
+    toastMensaje,       
+    setToastMensaje,     
     onSubmit: handleSubmit,
   };
 }
