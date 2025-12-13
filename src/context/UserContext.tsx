@@ -1,8 +1,12 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from "react";
-
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 // Interfaces
-
 export interface UserData {
   idUsuario: number;
   correo: string;
@@ -17,11 +21,8 @@ export interface UserContextType {
   logout: () => void;
 }
 
-
 // Contexto
-
 export const UserContext = createContext<UserContextType | undefined>(undefined);
-
 
 export function useUser() {
   const ctx = useContext(UserContext);
@@ -29,27 +30,64 @@ export function useUser() {
   return ctx;
 }
 
-
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserData | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
+  // LOGIN
   const login = (
     tokenValue: string,
     idUsuario: number,
     correo: string,
     rol: string = "cliente"
   ) => {
-    setUser({ idUsuario, correo, rol });
+    const userData = { idUsuario, correo, rol };
+
+    setUser(userData);
     setToken(tokenValue);
+
+    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("token", tokenValue);
   };
 
+  // LOGOUT GLOBAL
   const logout = () => {
     setUser(null);
     setToken(null);
+
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+
+    
+    window.location.replace("/");
   };
 
+  // Rehidratar sesion
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
 
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setToken(storedToken);
+    }
+  }, []);
+
+  // Sincronizar logout entre pestañas
+  useEffect(() => {
+    const onStorageChange = (e: StorageEvent) => {
+      if (e.key === "user" && e.newValue === null) {
+        setUser(null);
+        setToken(null);
+        window.location.replace("/");
+      }
+    };
+
+    window.addEventListener("storage", onStorageChange);
+    return () => window.removeEventListener("storage", onStorageChange);
+  }, []);
+
+  
   useEffect(() => {
     if (!user) return;
     if (!user.correo) return;
