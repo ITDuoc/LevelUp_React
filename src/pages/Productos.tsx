@@ -22,7 +22,6 @@ export default function Productos() {
     setMensaje,
   } = useProductos();
 
-  // Filtrar null 
   const categorias = Array.from(
     new Map(
       productos
@@ -41,7 +40,6 @@ export default function Productos() {
     ).values()
   );
 
-  // Hook de filtros
   const {
     categoriasSeleccionadas,
     marcasSeleccionadas,
@@ -53,8 +51,8 @@ export default function Productos() {
   const [busqueda, setBusqueda] = useState("");
   const [ordenPrecio, setOrdenPrecio] = useState<"asc" | "desc" | "ninguno">("ninguno");
 
-  
   const [categoriaInicialAplicada, setCategoriaInicialAplicada] = useState(false);
+
   useEffect(() => {
     if (!categoriaInicialAplicada && categoriaQuery && productos.length > 0) {
       const cat = categorias.find(c => c.nomCategoria === categoriaQuery);
@@ -63,7 +61,6 @@ export default function Productos() {
     }
   }, [categoriaQuery, categorias, productos, categoriaInicialAplicada, handleCheckboxCategoria]);
 
-  
   const productosFiltrados = React.useMemo(() => {
     let filtrados = filtrarProductos(productos).filter(p =>
       !busqueda || p.nomProducto.toLowerCase().includes(busqueda.toLowerCase())
@@ -75,30 +72,68 @@ export default function Productos() {
     return filtrados;
   }, [productos, filtrarProductos, busqueda, ordenPrecio]);
 
+  /* =========================
+     VISTA DETALLE PRODUCTO
+  ========================= */
+
   if (productoSeleccionado) {
     const marca = productoSeleccionado.marca?.nomMarca;
     const categoria = productoSeleccionado.categoria?.nomCategoria;
 
     return (
       <div className="container mt-4">
-        <button className="btn btn-secondary mb-3" onClick={() => setProductoSeleccionado(null)}>Volver</button>
+        <button
+          className="btn btn-secondary mb-3"
+          onClick={() => setProductoSeleccionado(null)}
+        >
+          Volver
+        </button>
+
         <div className="row">
           <div className="col-md-6">
-            <img src={productoSeleccionado.imgProducto} alt={productoSeleccionado.nomProducto} className="img-fluid" />
+            <img
+              src={productoSeleccionado.imgProducto}
+              alt={productoSeleccionado.nomProducto}
+              className="img-fluid"
+            />
           </div>
+
           <div className="col-md-6">
             <h2>{productoSeleccionado.nomProducto}</h2>
             <p className="text-muted">{marca}</p>
             <p className="small">{categoria}</p>
-            <h4 className="fw-bold">${productoSeleccionado.precioProducto.toLocaleString()}</h4>
+
+            <h4 className="fw-bold">
+              ${productoSeleccionado.precioProducto.toLocaleString()}
+            </h4>
+
+            {/* ✅ STOCK */}
+            <p className="text-secondary">
+              Stock: {productoSeleccionado.stockProducto} unidades
+            </p>
 
             <div className="d-flex align-items-center my-3">
-              <button className="btn btn-outline-secondary" onClick={disminuirCantidad}>-</button>
+              <button
+                className="btn btn-outline-secondary"
+                onClick={disminuirCantidad}
+              >
+                -
+              </button>
+
               <span className="mx-3">{cantidad}</span>
-              <button className="btn btn-outline-secondary" onClick={aumentarCantidad}>+</button>
+
+              <button
+                className="btn btn-outline-secondary"
+                onClick={aumentarCantidad}
+              >
+                +
+              </button>
             </div>
 
-            <button className="btn btn-primary mt-3" onClick={agregarAlCarrito}>
+            <button
+              className="btn btn-primary mt-3"
+              onClick={agregarAlCarrito}
+            >
               Agregar {cantidad} al carrito
             </button>
           </div>
@@ -108,6 +143,10 @@ export default function Productos() {
       </div>
     );
   }
+
+  /* =========================
+     LISTA PRODUCTOS
+  ========================= */
 
   return (
     <div className="container mt-4">
@@ -123,11 +162,14 @@ export default function Productos() {
             onChange={e => setBusqueda(e.target.value)}
           />
         </div>
+
         <div className="col-md-4 mb-2">
           <select
             className="form-select"
             value={ordenPrecio}
-            onChange={e => setOrdenPrecio(e.target.value as "asc" | "desc" | "ninguno")}
+            onChange={e =>
+              setOrdenPrecio(e.target.value as "asc" | "desc" | "ninguno")
+            }
           >
             <option value="ninguno">Ordenar por precio</option>
             <option value="asc">Menor a Mayor</option>
@@ -138,7 +180,10 @@ export default function Productos() {
 
       <div className="row">
         <div className="col-lg-3 mb-3">
-          <div className="cardSimple p-3 sticky-top" style={{ top: 80, height: 500, overflowY: "auto" }}>
+          <div
+            className="cardSimple p-3 sticky-top"
+            style={{ top: 80, height: 500, overflowY: "auto" }}
+          >
             <h5>Filtros</h5>
 
             <div className="mb-3">
@@ -151,7 +196,9 @@ export default function Productos() {
                     checked={categoriasSeleccionadas.includes(cat.idCategoria)}
                     onChange={() => handleCheckboxCategoria(cat.idCategoria)}
                   />
-                  <label className="form-check-label">{cat.nomCategoria}</label>
+                  <label className="form-check-label">
+                    {cat.nomCategoria}
+                  </label>
                 </div>
               ))}
             </div>
@@ -166,7 +213,9 @@ export default function Productos() {
                     checked={marcasSeleccionadas.includes(m.idMarca)}
                     onChange={() => handleCheckboxMarca(m.idMarca)}
                   />
-                  <label className="form-check-label">{m.nomMarca}</label>
+                  <label className="form-check-label">
+                    {m.nomMarca}
+                  </label>
                 </div>
               ))}
             </div>
