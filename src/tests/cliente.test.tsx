@@ -6,9 +6,9 @@ import { ROLES } from "../context/UserRoles";
 import { EventCard } from "../components/EventCard";
 import { Carrusel } from "../components/Carrusel";
 
-
-   //MOCK USER CONTEXT
-
+/* =======================
+   MOCK USER CONTEXT
+======================= */
 vi.mock("../context/UserContext", () => ({
   useUser: () => ({
     user: {
@@ -17,9 +17,9 @@ vi.mock("../context/UserContext", () => ({
   }),
 }));
 
-
-   //TEST HOOK useBlog
-
+/* =======================
+   TEST HOOK useBlog
+======================= */
 describe("Cliente - useBlog hook (API actual)", () => {
 
   test("carga noticias correctamente", async () => {
@@ -45,9 +45,9 @@ describe("Cliente - useBlog hook (API actual)", () => {
 
 });
 
-
-   //COMPONENTS
-
+/* =======================
+   COMPONENTS
+======================= */
 describe("EventCard", () => {
   const eventoMock = {
     nombre: "Festival Gamer 2025",
